@@ -20,14 +20,22 @@ public class MybatisTest {
 
     @Test
     public void testFind() throws IOException {
-        is = Resources.getResourceAsStream("mybatis-config.xml");
-        SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(is);
-        sqlSession = sqlSessionFactory.openSession();
-        blogDao = sqlSession.getMapper(BlogDao.class);
+        init();
         //query
         List<Blog> blogs = blogDao.findAll();
         for (Blog blog : blogs) {
             System.out.println(blog);
+        }
+        close();
+    }
+
+    @Test
+    public void testFindByName() throws IOException {
+        init();
+        //query
+        List<Blog> blogs = blogDao.findByName("典");
+        for (Blog blog : blogs) {
+            System.out.println("打印结果:" + blog);
         }
         close();
     }
@@ -38,8 +46,10 @@ public class MybatisTest {
         //insert
         Blog addBlog = new Blog();
         addBlog.setName("典韦");
+        System.out.println("添加前:"+addBlog);
         blogDao.addBlog(addBlog);
         sqlSession.commit();
+        System.out.println("添加后:"+addBlog);
         close();
     }
 

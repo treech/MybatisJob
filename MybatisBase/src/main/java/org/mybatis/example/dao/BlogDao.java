@@ -11,6 +11,8 @@ public interface BlogDao {
 
     List<Blog> findAll();
 
+    List<Blog> findByName(String name);
+
     void addBlog(Blog blog);
 
     void updateBlog(Blog blog);
