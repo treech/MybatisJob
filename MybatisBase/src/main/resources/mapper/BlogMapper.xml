@@ -3,7 +3,23 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.mybatis.example.dao.BlogDao">
+    <select id="findAll" resultType="org.mybatis.example.entity.Blog">
+        SELECT * FROM blog
+    </select>
+
     <select id="findBlog" parameterType="integer" resultType="org.mybatis.example.entity.Blog">
         SELECT * FROM blog WHERE id = #{id}
     </select>
+
+    <insert id="addBlog" parameterType="org.mybatis.example.entity.Blog">
+        INSERT INTO blog(name) VALUES(#{name})
+    </insert>
+
+    <update id="updateBlog" parameterType="org.mybatis.example.entity.Blog">
+        UPDATE blog SET name=#{name} WHERE id = #{id}
+    </update>
+
+    <delete id="deleteById" parameterType="integer">
+        DELETE FROM blog WHERE id = #{id}
+    </delete>
 </mapper>
