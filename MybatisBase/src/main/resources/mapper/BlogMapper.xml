@@ -3,8 +3,13 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.mybatis.example.dao.BlogDao">
-    <select id="findAll" resultType="org.mybatis.example.entity.Blog">
+    
+    <!--抽取重复的sql语句-->
+    <sql id="userDefault">
         SELECT * FROM blog
+    </sql>
+    <select id="findAll" resultType="org.mybatis.example.entity.Blog">
+        <include refid="userDefault"/>
     </select>
 
     <select id="findBlog" parameterType="integer" resultType="org.mybatis.example.entity.Blog">
@@ -14,6 +19,26 @@
     <!--模糊查询-->
     <select id="findByName" parameterType="String" resultType="org.mybatis.example.entity.Blog">
         SELECT * FROM blog WHERE name like '%${name}%'
+    </select>
+
+    <select id="findByCondition" parameterType="org.mybatis.example.entity.Blog"
+            resultType="org.mybatis.example.entity.Blog">
+        SELECT * FROM blog WHERE 1=1
+        <if test="name !=null">
+            and name = #{name}
+        </if>
+    </select>
+
+    <select id="findByIds" parameterType="org.mybatis.example.entity.QueryVo"
+            resultType="org.mybatis.example.entity.Blog">
+        <include refid="userDefault"/>
+        <where>
+            <if test="ids !=null and ids.size()>0">
+                <foreach collection="ids" open="and id in(" close=")" item="id" separator=",">
+                    #{id}
+                </foreach>
+            </if>
+        </where>
     </select>
 
     <insert id="addBlog" parameterType="org.mybatis.example.entity.Blog">
