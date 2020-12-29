@@ -5,13 +5,17 @@ import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import org.junit.Test;
+import org.mybatis.example.dao.AccountDao;
 import org.mybatis.example.dao.BlogDao;
+import org.mybatis.example.entity.AccountUser;
 import org.mybatis.example.entity.Blog;
 import org.mybatis.example.entity.QueryVo;
+import org.mybatis.example.entity.User;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class MybatisTest {
@@ -19,6 +23,7 @@ public class MybatisTest {
     InputStream is;
     SqlSession sqlSession;
     BlogDao blogDao;
+    AccountDao accountDao;
 
     @Test
     public void testFind() throws IOException {
@@ -112,10 +117,38 @@ public class MybatisTest {
         SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(is);
         sqlSession = sqlSessionFactory.openSession();
         blogDao = sqlSession.getMapper(BlogDao.class);
+        accountDao = sqlSession.getMapper(AccountDao.class);
     }
 
     private void close() throws IOException {
         sqlSession.close();
         is.close();
+    }
+
+    @Test
+    public void testAccountUser() {
+        AccountUser accountUser = new AccountUser();
+        accountUser.setId(2001);
+        accountUser.setMoney("100");
+        accountUser.setUid("90");
+        User user = new User();
+        user.setId(11);
+        user.setSex("男");
+        user.setAddress("湖北黄冈");
+        user.setUserName("哆啦A梦");
+        user.setBirthday(new Date(System.currentTimeMillis()));
+        accountUser.setUser(user);
+        System.out.println(accountUser);
+    }
+
+    @Test
+    public void testAccountUser2() throws IOException {
+        init();
+        //query
+        List<AccountUser> accountUsers = accountDao.findAll();
+        for (AccountUser accountUser : accountUsers) {
+            System.out.println(accountUser);
+        }
+        close();
     }
 }
