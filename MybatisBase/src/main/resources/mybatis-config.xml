@@ -22,5 +22,6 @@
     <mappers>
         <mapper resource="mapper/BlogMapper.xml"/>
         <mapper resource="mapper/AccountMapper.xml"/>
+        <mapper resource="mapper/UserMapper.xml"/>
     </mappers>
 </configuration>

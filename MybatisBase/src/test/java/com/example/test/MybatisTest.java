@@ -7,6 +7,7 @@ import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import org.junit.Test;
 import org.mybatis.example.dao.AccountDao;
 import org.mybatis.example.dao.BlogDao;
+import org.mybatis.example.dao.UserDao;
 import org.mybatis.example.entity.AccountUser;
 import org.mybatis.example.entity.Blog;
 import org.mybatis.example.entity.QueryVo;
@@ -24,6 +25,7 @@ public class MybatisTest {
     SqlSession sqlSession;
     BlogDao blogDao;
     AccountDao accountDao;
+    UserDao userDao;
 
     @Test
     public void testFind() throws IOException {
@@ -118,6 +120,7 @@ public class MybatisTest {
         sqlSession = sqlSessionFactory.openSession();
         blogDao = sqlSession.getMapper(BlogDao.class);
         accountDao = sqlSession.getMapper(AccountDao.class);
+        userDao = sqlSession.getMapper(UserDao.class);
     }
 
     private void close() throws IOException {
@@ -148,6 +151,17 @@ public class MybatisTest {
         List<AccountUser> accountUsers = accountDao.findAll();
         for (AccountUser accountUser : accountUsers) {
             System.out.println(accountUser);
+        }
+        close();
+    }
+
+    @Test
+    public void testUser3() throws IOException {
+        init();
+        //query
+        List<User> accountUsers = userDao.findAll();
+        for (User userAccount : accountUsers) {
+            System.out.println(userAccount);
         }
         close();
     }

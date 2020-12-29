@@ -3,6 +3,7 @@ package org.mybatis.example.entity;
 import lombok.Data;
 
 import java.util.Date;
+import java.util.List;
 
 @Data
 public class User {
@@ -11,4 +12,5 @@ public class User {
     private String sex;
     private String address;
     private Date birthday;
+    private List<Account> accounts;
 }
